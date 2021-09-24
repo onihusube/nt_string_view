@@ -83,6 +83,8 @@ namespace ntsv {
 As for the constructor, it is completely different from `std::string_view`. It is forbidden to construct from anything that is not guaranteed to be null-terminated.
 
 ```cpp
+using base = std::basic_string_view<CharT>;
+
 // (1) Default constructor
 basic_null_terminated_string_view() = default;
 
