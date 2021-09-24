@@ -27,23 +27,19 @@ namespace ntsv {
     basic_null_terminated_string_view() = default;
 
     template<typename Allocator>
-    explicit constexpr basic_null_terminated_string_view(const std::basic_string<CharT, std::char_traits<CharT>, Allocator>& str) noexcept
+    constexpr basic_null_terminated_string_view(const std::basic_string<CharT, std::char_traits<CharT>, Allocator>& str) noexcept
       : base(str)
     {}
 
     template<typename Allocator>
-    explicit basic_null_terminated_string_view(std::basic_string<CharT, std::char_traits<CharT>, Allocator>&&) = delete;
+    basic_null_terminated_string_view(std::basic_string<CharT, std::char_traits<CharT>, Allocator>&&) = delete;
 
     template<std::size_t N>
     consteval basic_null_terminated_string_view(const CharT(&str_literal)[N])
       : base(detail::check_null_terminate(str_literal, N))
     {}
 
-    explicit consteval basic_null_terminated_string_view(const CharT* ptr)
-      : base(ptr)
-    {}
-
-    explicit consteval basic_null_terminated_string_view(std::basic_string_view<CharT> str_view)
+    consteval basic_null_terminated_string_view(std::basic_string_view<CharT> str_view)
       : base(detail::check_null_terminate(str_view.data(), str_view.size() + 1))
     {}
 
