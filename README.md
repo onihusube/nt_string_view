@@ -61,7 +61,7 @@ int main() {
 }
 ```
 
-[A quick test (godbolt)](https://godbolt.org/z/efbjo1jcb)
+[A quick test (godbolt)](https://godbolt.org/z/YMG88T8c8)
 
 ## Document
 
