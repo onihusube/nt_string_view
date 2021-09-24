@@ -35,6 +35,8 @@ int main() {
 
 In the case of ng above, a compilation error will occur.
 
+Assumed use cases
+
 ```cpp
 #include <string>
 #include <string_view>
@@ -55,6 +57,9 @@ int main() {
   c_api_wrapper(dyn_str);         // ng, constructor is explicit
 }
 ```
+
+(Is this explicit a hard limit...?)
+
 ## Document
 
 Basically, it is the same as `std::string_view`. For more information about `std::string_view`, please refer to the following website:
