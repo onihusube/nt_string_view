@@ -58,7 +58,7 @@ int main() {
 }
 ```
 
-(Is this explicit a hard limit...?)
+(Is this `explicit` a hard limit...?)
 
 ## Document
 
