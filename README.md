@@ -19,24 +19,42 @@
 using namespace std::string_view_literals;
 using namespace std::string_literals;
 
-int c_api_wrapper(ntsv::nt_string_view);
-  
 int main() {
-  c_api_wrapper("arg string");    // ok
-  c_api_wrapper("arg string"sv);  // ok
+  ntsv::nt_string_view str1("arg string");    // ok
+  ntsv::nt_string_view str2("arg string"sv);  // ok
 
-  auto dyn_str = "std::string"sv;
-  c_api_wrapper(dyn_str);         // ok
+  auto dyn_str = "std::string"s;
+  ntsv::nt_string_view str3(dyn_str);         // ok
   
   constexpr auto strview = "std::string_view"sv;
-  c_api_wrapper(strview.substr(0, 3));  // ng
+  ntsv::nt_string_view str4(strview.substr(0, 3));  // ng
   
-  c_api_wrapper("arg string"s);   // ng
+  ntsv::nt_string_view str5("arg string"s);   // ng
 }
 ```
 
 In the case of ng above, a compilation error will occur.
 
+```cpp
+#include <string>
+#include <string_view>
+
+// Header of this library
+#include <nt_string_view.hpp>
+
+using namespace std::string_view_literals;
+using namespace std::string_literals;
+
+int c_api_wrapper(ntsv::nt_string_view);
+  
+int main() {
+  c_api_wrapper("arg string");    // ok
+  c_api_wrapper("arg string"sv);  // ng, constructor is explicit
+
+  auto dyn_str = "std::string"sv;
+  c_api_wrapper(dyn_str);         // ng, constructor is explicit
+}
+```
 ## Document
 
 Basically, it is the same as `std::string_view`. For more information about `std::string_view`, please refer to the following website:
