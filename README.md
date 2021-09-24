@@ -54,14 +54,14 @@ int c_api_wrapper(ntsv::nt_string_view);
   
 int main() {
   c_api_wrapper("arg string");    // ok
-  c_api_wrapper("arg string"sv);  // ng, constructor is explicit
+  c_api_wrapper("arg string"sv);  // ok
 
   auto dyn_str = "std::string"sv;
-  c_api_wrapper(dyn_str);         // ng, constructor is explicit
+  c_api_wrapper(dyn_str);         // ok
 }
 ```
 
-(Is this `explicit` a hard limit...?)
+[A quick test (godbolt)](https://godbolt.org/z/efbjo1jcb)
 
 ## Document
 
@@ -116,13 +116,13 @@ basic_null_terminated_string_view() = default;
 
 // (2) Constructor to construct from std::string
 template<typename Allocator>
-explicit constexpr basic_null_terminated_string_view(const std::basic_string<CharT, std::char_traits<CharT>, Allocator>& str) noexcept
+constexpr basic_null_terminated_string_view(const std::basic_string<CharT, std::char_traits<CharT>, Allocator>& str) noexcept
   : base(str)
 {}
 
 // (3) Constructors that construct from std::string, this is not allowed
 template<typename Allocator>
-explicit basic_null_terminated_string_view(std::basic_string<CharT, std::char_traits<CharT>, Allocator>&&) = delete;
+basic_null_terminated_string_view(std::basic_string<CharT, std::char_traits<CharT>, Allocator>&&) = delete;
 
 // (4) Constructor to construct from string literal
 template<std::size_t N>
@@ -130,20 +130,15 @@ consteval basic_null_terminated_string_view(const CharT(&str_literal)[N])
   : base(detail::check_null_terminate(str_literal, N))
 {}
 
-// (5) Constructor to construct from pointer to string
-explicit consteval basic_null_terminated_string_view(const CharT* ptr)
-  : base(ptr)
-{}
-
-// (6) Constructor to construct from std::string_view
-explicit consteval basic_null_terminated_string_view(std::basic_string_view<CharT> str_view)
+// (5) Constructor to construct from std::string_view
+consteval basic_null_terminated_string_view(std::basic_string_view<CharT> str_view)
   : base(detail::check_null_terminate(str_view.data(), str_view.size() + 1))
 {}
 ```
 
 Of these, only two can be called at runtime, (1) and (2), while the remaining constructor can only be used at compile time.
 
-In the constructors of (4)(5)(6), a compile error will occur if the null terminator cannot be confirmed.
+In the constructors of (4)(5), a compile error will occur if the null terminator cannot be confirmed.
 
 ### Added function
 
