@@ -30,6 +30,9 @@ int main() {
   ntsv::nt_string_view str4(strview.substr(0, 3));  // ng
   
   ntsv::nt_string_view str5("arg string"s);   // ng
+  
+  constexpr char arr[] = {'s', 't', 'r', 'i', 'n', 'g'};
+  ntsv::nt_string_view str6(arr);             // ng
 }
 ```
 
