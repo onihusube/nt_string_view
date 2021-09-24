@@ -56,7 +56,7 @@ int main() {
   c_api_wrapper("arg string");    // ok
   c_api_wrapper("arg string"sv);  // ok
 
-  auto dyn_str = "std::string"sv;
+  auto dyn_str = "std::string"s;
   c_api_wrapper(dyn_str);         // ok
 }
 ```
