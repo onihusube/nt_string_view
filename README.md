@@ -123,7 +123,7 @@ constexpr basic_null_terminated_string_view(const std::basic_string<CharT, std::
   : base(str)
 {}
 
-// (3) Constructors that construct from std::string, this is not allowed
+// (3) Constructors that construct from rvalue std::string, this is not allowed
 template<typename Allocator>
 basic_null_terminated_string_view(std::basic_string<CharT, std::char_traits<CharT>, Allocator>&&) = delete;
 
