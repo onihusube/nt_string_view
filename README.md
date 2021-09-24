@@ -33,6 +33,9 @@ int main() {
   
   constexpr char arr[] = {'s', 't', 'r', 'i', 'n', 'g'};
   ntsv::nt_string_view str6(arr);             // ng
+
+  auto dyn_strview = "std::string_view"sv;
+  ntsv::nt_string_view str7(dyn_strview);     // ng
 }
 ```
 
